@@ -6,6 +6,7 @@ static void do_cat(FILE *f);
 int
 main(int argc, char *argv[])
 {
+
     int i;
 
     if (argc == 1) {
@@ -33,6 +34,16 @@ do_cat(FILE *f)
     int c;
 
     while ((c = fgetc(f)) != EOF) {
-        if (putchar(c) < 0) exit(1);
+        switch (c) {
+            case '\t':
+                if (fputs("\\t", stdout) == EOF) exit(1);
+                break;
+            case '\n':
+                if (fputs("$\n", stdout) == EOF) exit(1);
+                break;
+            default:
+                if (putchar(c) < 0) exit(1);
+                break;
+        }
     }
 }
